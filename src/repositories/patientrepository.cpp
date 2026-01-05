@@ -39,8 +39,7 @@ bool PatientRepository::create(Patient& patient, int currentUserId) {
                   "VALUES "
                   "(patient_id_seq.NEXTVAL, :first_name, :last_name, :dob, :gender, "
                   ":phone, :email, :address, :history, 0, "
-                  "CURRENT_TIMESTAMP, :created_by, CURRENT_TIMESTAMP, :updated_by) "
-                  "RETURNING patient_id INTO :patient_id");
+                  "CURRENT_TIMESTAMP, :created_by, CURRENT_TIMESTAMP, :updated_by)");
     
     query.bindValue(":first_name", patient.firstName());
     query.bindValue(":last_name", patient.lastName());

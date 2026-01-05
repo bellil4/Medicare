@@ -34,15 +34,18 @@ The application uses SHA-256 with per-user salt for password hashing. To generat
 **Option A: Using OpenSSL (Linux/macOS)**
 
 ```bash
-# Generate a random salt (hex string)
+# Generate a random salt (hex string, 32 characters = 16 bytes)
 SALT=$(openssl rand -hex 16)
 echo "Salt: $SALT"
 
 # Generate password hash (replace 'AdminPassword123!' with your desired password)
 PASSWORD="AdminPassword123!"
-HASH=$(echo -n "${PASSWORD}${SALT}" | openssl dgst -sha256 -hex | cut -d' ' -f2)
+# Convert salt from hex to binary, concatenate with password, then hash
+HASH=$(printf "%s" "$PASSWORD" | cat - <(echo "$SALT" | xxd -r -p) | openssl dgst -sha256 -hex | cut -d' ' -f2)
 echo "Hash: $HASH"
 ```
+
+Note: The implementation concatenates the password (as UTF-8 bytes) with the salt (as decoded hex bytes) before hashing.
 
 **Option B: Using Qt Console Tool (All platforms)**
 
