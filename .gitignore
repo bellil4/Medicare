@@ -1,0 +1,21 @@
+# Build
+/build
+/Makefile
+/CMakeFiles
+CMakeCache.txt
+CMakeLists.txt.user
+
+# Qt Creator
+*.pro.user
+*.user
+*.autosave
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Generated files
+*.o
+*.obj
+*.exe
+*.log
