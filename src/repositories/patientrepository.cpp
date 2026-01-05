@@ -28,11 +28,16 @@ bool PatientRepository::create(const Patient& p, int& outId) {
         return false;
     }
 
-    // Oracle: retrieve generated ID (if using identity) — here select max approximate for demo; replace with RETURNING if required
+    // Oracle: retrieve generated ID using last_insert_id approach
     QSqlQuery idq(Database::instance().db());
-    idq.exec("SELECT patients_seq.CURRVAL FROM dual"); // if a sequence patients_seq exists
-    if (idq.next()) outId = idq.value(0).toInt();
-    else outId = -1;
+    idq.prepare("SELECT patient_id FROM patients WHERE ROWID = (SELECT MAX(ROWID) FROM patients WHERE first_name = :fn AND last_name = :ln)");
+    idq.bindValue(":fn", p.firstName);
+    idq.bindValue(":ln", p.lastName);
+    if (idq.exec() && idq.next()) {
+        outId = idq.value(0).toInt();
+    } else {
+        outId = -1;
+    }
 
     AuditLogger::instance().logEvent(QString::number(outId), QString(), "PATIENT_CREATED", "Patient", QString::number(outId), p.toVariantMap());
     return true;
@@ -61,7 +66,7 @@ QList<Patient> PatientRepository::search(const QString& term, int limit) {
               (UPPER(first_name) LIKE UPPER(:t) OR UPPER(last_name) LIKE UPPER(:t) OR national_id LIKE :t)
         ORDER BY last_name FETCH FIRST :limit ROWS ONLY
     )");
-    QString like = QString("%%1%").arg(term);
+    QString like = QString("%%%1%%").arg(term);
     q.bindValue(":t", like);
     q.bindValue(":limit", limit);
     if (!q.exec()) {

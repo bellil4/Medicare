@@ -2,6 +2,7 @@
 #include <QString>
 #include <QDate>
 #include <QVariantMap>
+#include <QSqlRecord>
 
 class Patient {
 public:

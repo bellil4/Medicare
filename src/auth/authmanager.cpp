@@ -16,7 +16,7 @@ QString AuthManager::generateSalt() const {
     QByteArray salt(32, '\0');
     for (int i = 0; i < salt.size(); ++i)
         salt[i] = static_cast<char>(QRandomGenerator::global()->bounded(256));
-    return QString::fromUtf8(salt.toBase64());
+    return QString::fromLatin1(salt.toBase64());
 }
 
 QString AuthManager::hashPassword(const QString& password, const QString& salt) const {

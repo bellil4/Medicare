@@ -45,6 +45,7 @@ bool Database::open(const QString& host,
 }
 
 QSqlDatabase Database::db() {
+    std::lock_guard<std::mutex> lock(m_mutex);
     return m_db;
 }
 
