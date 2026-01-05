@@ -1,0 +1,53 @@
+# Build directories
+build/
+build-*/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Qt generated files
+*.autosave
+*.qm
+*.user
+*.user.*
+moc_*.cpp
+qrc_*.cpp
+ui_*.h
+
+# Compiled Object files
+*.o
+*.obj
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.app
+
+# IDE files
+.vscode/
+.idea/
+*.pro.user
+*.creator
+*.creator.user
+*.includes
+*.files
+*.config
+
+# OS files
+.DS_Store
+Thumbs.db
+*~
+
+# Temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Sensitive configuration
+config.ini
+database.conf
+*.credentials
